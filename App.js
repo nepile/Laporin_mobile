@@ -21,6 +21,7 @@ import Login from "./views/LoginScreen";
 // core views
 import Home from "./views/HomeScreen";
 import LaporinPublik from "./views/LaporinPublik";
+import Notifikasi from "./views/NotifikasiScreen";
 import Profil from "./views/ProfilScreen";
 
 export default function App() {
@@ -67,6 +68,8 @@ export default function App() {
                     iconName = focused ? "home" : "home";
                   } else if (route.name === "Laporin Publik") {
                     iconName = focused ? "file-text" : "file-text";
+                  } else if (route.name === "Notifikasi") {
+                    iconName = focused ? "bell" : "bell";
                   } else if (route.name === "Profil") {
                     iconName = focused ? "user" : "user";
                   }
@@ -101,6 +104,19 @@ export default function App() {
               <Tab.Screen
                 name="Laporin Publik"
                 component={LaporinPublik}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#5BC0F8",
+                  },
+                  headerTitleStyle: {
+                    fontFamily: "Poppins_600SemiBold",
+                    color: "#fff",
+                  },
+                }}
+              />
+              <Tab.Screen
+                name="Notifikasi"
+                component={Notifikasi}
                 options={{
                   headerStyle: {
                     backgroundColor: "#5BC0F8",
