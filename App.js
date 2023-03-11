@@ -17,7 +17,11 @@ import {
 // views
 import Welcome from "./views/WelcomeScreen";
 import Login from "./views/LoginScreen";
+
+// core views
 import Home from "./views/HomeScreen";
+import LaporinPublik from "./views/LaporinPublik";
+import Profil from "./views/ProfilScreen";
 
 export default function App() {
   // stack and tab navigator
@@ -61,6 +65,10 @@ export default function App() {
                   let iconName;
                   if (route.name === "Home") {
                     iconName = focused ? "home" : "home";
+                  } else if (route.name === "Laporin Publik") {
+                    iconName = focused ? "file-text" : "file-text";
+                  } else if (route.name === "Profil") {
+                    iconName = focused ? "user" : "user";
                   }
                   return <Icon name={iconName} size={size} color={color} />;
                 },
@@ -88,7 +96,33 @@ export default function App() {
               <Tab.Screen
                 name="Home"
                 component={Home}
-                options={{ headerShown: false }}
+                options={{ headerShown: false, tabBarLabel: "Beranda" }}
+              />
+              <Tab.Screen
+                name="Laporin Publik"
+                component={LaporinPublik}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#5BC0F8",
+                  },
+                  headerTitleStyle: {
+                    fontFamily: "Poppins_600SemiBold",
+                    color: "#fff",
+                  },
+                }}
+              />
+              <Tab.Screen
+                name="Profil"
+                component={Profil}
+                options={{
+                  headerStyle: {
+                    backgroundColor: "#5BC0F8",
+                  },
+                  headerTitleStyle: {
+                    fontFamily: "Poppins_600SemiBold",
+                    color: "#fff",
+                  },
+                }}
               />
             </Tab.Navigator>
           )}

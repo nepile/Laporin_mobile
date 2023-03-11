@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
   header: {
     flex: 0.4,
     width: _width,
-    backgroundColor: "red",
   },
   imgHeader: {
     resizeMode: "cover",
