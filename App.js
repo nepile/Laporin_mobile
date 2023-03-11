@@ -102,7 +102,11 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{ title: null, headerTransparent: true }}
+          options={{
+            title: null,
+            headerTransparent: true,
+            headerTintColor: "#fff",
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
