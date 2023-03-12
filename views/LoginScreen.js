@@ -6,13 +6,49 @@ import {
   TextInput,
   TouchableOpacity,
   Linking,
-  KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const _width = Dimensions.get("screen").width;
 
 export default function LoginScreen({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        "http://192.168.43.105:19001/api/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
+      const data = await response.data;
+
+      if (response.data.status == 404) {
+        Alert.alert("Perhatian", data.message);
+      }
+
+      if (response.data.status == 401) {
+        Alert.alert("Gagal Login", data.message);
+      }
+
+      if (response.data.status == 200) {
+        // simpan data user yang telah login pada storage
+        AsyncStorage.setItem("user", JSON.stringify(data.user));
+        // navigate ke halaman Home setelah berhasil login
+        navigation.replace("Home");
+      }
+    } catch (error) {
+      Alert.alert("Server Error", "Terjadi kesalahan saat melakukan login.");
+    }
+  };
+
   return (
     <>
       <View style={styles.header}>
@@ -28,9 +64,8 @@ export default function LoginScreen({ navigation }) {
           <TextInput
             style={styles.textInput}
             placeholder="contoh@gmail.com"
-            // keyboardType="numeric"
-            // value={nrp}
-            // onChangeText={setNrp}
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
 
@@ -39,8 +74,8 @@ export default function LoginScreen({ navigation }) {
           <TextInput
             style={styles.textInput}
             placeholder="Password"
-            // value={password}
-            // onChangeText={setPassword}
+            value={password}
+            onChangeText={setPassword}
             secureTextEntry
           />
         </View>
@@ -57,10 +92,7 @@ export default function LoginScreen({ navigation }) {
         </View>
 
         <View style={styles.btnWrap}>
-          <TouchableOpacity
-            style={styles.btnMasuk}
-            onPress={() => navigation.navigate("Home")}
-          >
+          <TouchableOpacity style={styles.btnMasuk} onPress={handleLogin}>
             <Text style={styles.textBtnMasuk}>Masuk</Text>
           </TouchableOpacity>
 

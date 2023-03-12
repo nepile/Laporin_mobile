@@ -3,17 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// font (poppins)
-import {
-  useFonts,
-  Poppins_400Regular,
-  Poppins_700Bold,
-  Poppins_600SemiBold,
-  Poppins_300Light,
-} from "@expo-google-fonts/poppins";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // views
 import Welcome from "./views/WelcomeScreen";
 import Login from "./views/LoginScreen";
@@ -24,36 +14,43 @@ import LaporinPublik from "./views/LaporinPublik";
 import Notifikasi from "./views/NotifikasiScreen";
 import Profil from "./views/ProfilScreen";
 
-export default function App() {
-  // stack and tab navigator
-  const Stack = createStackNavigator();
-  const Tab = createBottomTabNavigator();
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_700Bold,
+  Poppins_600SemiBold,
+  Poppins_300Light,
+} from "@expo-google-fonts/poppins";
 
-  // fonts
-  const [fontLoaded] = useFonts({
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  const [fontsLoaded] = useFonts({
     Poppins_300Light,
     Poppins_400Regular,
     Poppins_600SemiBold,
     Poppins_700Bold,
   });
 
-  if (!fontLoaded) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
+  const checkLoginStatus = async () => {
+    const token = await AsyncStorage.getItem("user");
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  };
+
+  if (!fontsLoaded) {
     return null;
   }
-
-  // check if user has been login
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const checkLoginStatus = async () => {
-  //   const token = await AsyncStorage.getItem("user");
-  //   if (token) {
-  //     setIsAuthenticated(true);
-  //   } else {
-  //     setIsAuthenticated(false);
-  //   }
-  // };
-  // useEffect(() => {
-  //   checkLoginStatus();
-  // }, []);
 
   return (
     <NavigationContainer>
